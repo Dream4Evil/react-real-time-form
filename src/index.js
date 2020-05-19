@@ -10,6 +10,7 @@ class Form extends React.Component{
    		lastName: "",
    		age: null,
    		gender: "",
+   		destination: "",
    		nutsFree: false,
    		lactoseFree: false,
    		vegan: false,
@@ -19,12 +20,21 @@ class Form extends React.Component{
    }
 
    handleChange = (event) => {
-   		let name = event.target.name;
-   		let value = event.target.value;
+   		const name = event.target.name;
+   		const value = event.target.value;
+   		const type = event.target.type;
+   		const checked = event.target.checked;
 
+   		// równoważne z powyższym!
+   		// const {name, value, type, checked} = event.target;
+	
    	this.setState({
    		[name] : value
    	});
+
+   	type === "checkbox"
+   			? this.setState({ [name]: checked })
+   			: this.setState({ [name]: value });
    }
 
    render(){
@@ -41,16 +51,17 @@ class Form extends React.Component{
 			        <div>
 			        	<h3>Gender</h3>
 			        	<div>
-				        	<input class="form__input-radio" type="radio" name="gender" value="Male" />
+				        	<input class="form__input-radio" type="radio" name="gender" value="male" onChange={this.handleChange} />
 				        	<label>Male</label>
 			        	</div>
 			        	<div>
-				        	<input class="form__input-radio" type="radio" name="gender" value="Female" />
+				        	<input class="form__input-radio" type="radio" name="gender" value="female" onChange={this.handleChange} />
 				        	<label>Female</label>
 				        </div>
 			        </div>
 			        <h3>Select your destination</h3>
-			        <select>
+			        <select onChange={this.handleChange} name="destination">
+			        	<option value="">Choose Your destination</option>
 			        	<option value="Japan">Japan</option>
 			        	<option value="Thailand">Thailand</option>
 			        	<option value="India">India</option>
@@ -58,15 +69,15 @@ class Form extends React.Component{
 			        <h3>Dietary restrictions:</h3>
 			        <div>
 			        	<div>
-			        		<input type="checkbox" value={this.state.nutsFree} />
+			        		<input type="checkbox" name="nutsFree" checked={this.nutsFree} onChange={this.handleChange} />
 			        		<span>Nuts free</span>
 			        	</div>
 			        	<div>
-				        	<input type="checkbox" value={this.state.lactoseFree} />
+				        	<input type="checkbox" name="lactoseFree" checked={this.lactoseFree} onChange={this.handleChange} />
 				        	<span>Lactose free</span>
 				        </div>
 				        <div>
-			        		<input type="checkbox" value={this.state.vegan} />
+			        		<input type="checkbox" name="vegan" checked={this.vegan} onChange={this.handleChange} />
 			        		<span>Vegan</span>
 			        	</div>
 			        </div>
@@ -84,9 +95,9 @@ class Form extends React.Component{
 		    	<p>Your destination: {this.state.destination}</p>
 		    	<p>Your dietary restrictions:</p>
 
-		    	<p>**Nuts free: {this.state.nutsFree}</p>
-		    	<p>**Lactose free: {this.state.lactoseFree}</p>
-		    	<p>**Vegan meal: {this.state.vegan}</p>
+		    	<p>**Nuts free: {this.state.nutsFree? "Yes" : "No"}</p>
+		    	<p>**Lactose free: {this.state.lactoseFree? "Yes" : "No"}</p>
+		    	<p>**Vegan meal: {this.state.vegan? "Yes" : "No"}</p>
 		    </section>
 		</main>
   	);
